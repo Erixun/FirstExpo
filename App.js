@@ -1,18 +1,23 @@
 import { useState } from 'react';
-import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import {
+  Button,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 
 export default function App() {
   const [enteredGoal, setEnteredGoal] = useState('');
 
   const goalInputHandler = (enteredText) => {
-    console.log(enteredText);
     setEnteredGoal(enteredText);
   };
 
   const [courseGoals, setCourseGoals] = useState([]); //array of strings [
 
   const addGoalHandler = () => {
-    console.log(enteredGoal);
     setCourseGoals((currentGoals) => [...currentGoals, enteredGoal]); //spread operator
     setEnteredGoal('');
   };
@@ -32,14 +37,20 @@ export default function App() {
         <Button title="Add Goal" onPress={addGoalHandler} />
       </View>
       <View style={styles.goalsContainer}>
-        {courseGoals.map((goal) => (
-          <Text key={goal}>{goal}</Text>
-        ))}
+        <ScrollView>
+          {/* alwaysBounceVertical={false}> */}
+          {courseGoals.map((goal, i) => (
+            <View key={i} style={styles.goalItem}>
+              <Text style={{ color: 'white' }}>{goal}</Text>
+            </View>
+          ))}
+        </ScrollView>
       </View>
     </View>
   );
 }
 
+//There is no cascading or inheritance in React Native
 const styles = StyleSheet.create({
   appContainer: {
     paddingTop: 50,
@@ -61,4 +72,12 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   goalsContainer: { flex: 5 },
+  goalItem: {
+    padding: 10,
+    marginVertical: 10,
+    backgroundColor: 'purple',
+    borderColor: 'black',
+    borderWidth: 1,
+    borderRadius: 4,
+  },
 });
